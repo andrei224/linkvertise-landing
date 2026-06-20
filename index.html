@@ -29,11 +29,16 @@
             padding: 20px 40px;
             border-radius: 5px;
             border: 1px solid #00ff00;
+            word-break: break-all;
+            max-width: 500px;
         }
         .instructions {
             color: #aaa;
             margin-top: 20px;
             font-size: 14px;
+        }
+        .error {
+            color: #ff4444;
         }
     </style>
 </head>
@@ -43,17 +48,36 @@
         <div class="key" id="keyDisplay">Loading...</div>
     </div>
     <div class="instructions">
-        <p>Copy this key and return to Discord.</p>
+        <p id="redeemInstruction">Copy this key and return to Discord.</p>
         <p>Use <code>/redeem YOUR_KEY</code> to activate.</p>
         <p style="color:#666; font-size:12px; margin-top:20px;">
             ⏰ This key expires in 4 hours.
         </p>
     </div>
     <script>
-        // Get the key from URL parameters
+        // Get parameters from URL - works with BOTH ?key= AND ?hash=
         const urlParams = new URLSearchParams(window.location.search);
-        const key = urlParams.get('key') || 'Invalid Key';
-        document.getElementById('keyDisplay').textContent = key;
+        
+        // Try to get 'key' first, then 'hash' as fallback
+        let key = urlParams.get('key');
+        if (!key) {
+            key = urlParams.get('hash');
+        }
+        
+        const display = document.getElementById('keyDisplay');
+        const instruction = document.getElementById('redeemInstruction');
+        
+        if (key && key !== 'null' && key !== 'undefined' && key.length > 0) {
+            display.textContent = key;
+            display.style.color = '#00ff00';
+            instruction.textContent = 'Copy this key and return to Discord.';
+            console.log('✅ Key loaded:', key);
+        } else {
+            display.textContent = '⚠️ No Key Found';
+            display.style.color = '#ff4444';
+            instruction.textContent = 'Please complete the Linkvertise steps again.';
+            console.log('❌ No key found in URL');
+        }
     </script>
 </body>
 </html>
