@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #00ff00;
+            text-align: center;
+            padding: 50px;
+            font-family: Arial, sans-serif;
+        }
+        .loader {
+            border: 4px solid #1a1a1a;
+            border-top: 4px solid #00ff00;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>🔑 Redirecting...</h1>
+    <div class="loader"></div>
+    <p>Please wait...</p>
+
+    <script>
+        // Get the key from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        let key = urlParams.get('key');
+        
+        // If no key parameter, try to get it from the path (fallback)
+        if (!key) {
+            const path = window.location.pathname;
+            key = path.split('/').pop();
+        }
+        
+        // If we have a key, redirect to the clean page
+        if (key && key.length > 0 && key !== 'redirect.html' && key !== '') {
+            // Redirect to the same page but with the key as a path
+            // The key will be displayed by the page's JavaScript
+            window.location.href = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/') + key;
+        } else {
+            document.body.innerHTML = `
+                <h1>⚠️ No Key Found</h1>
+                <p>Please complete the AdFly steps again.</p>
+            `;
+        }
+    </script>
+</body>
+</html>
