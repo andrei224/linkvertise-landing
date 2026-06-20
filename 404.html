@@ -52,10 +52,9 @@
         </p>
     </div>
     <script>
-        // Get the key from the URL path (not parameters)
-        const path = window.location.pathname;
-        const key = path.split('/').pop(); // Gets the last part of the URL
-        document.getElementById('keyDisplay').textContent = key;
-    </script>
+    const path = window.location.pathname;
+    const key = path.split('/').pop();
+    document.getElementById('keyDisplay').textContent = key;
+</script>
 </body>
 </html>
